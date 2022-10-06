@@ -48,6 +48,7 @@ public class StepTracker {
                 currentSize++;
             }
         }
+        result = (currentSize > result)?currentSize:result;
         return result;
     }
 
