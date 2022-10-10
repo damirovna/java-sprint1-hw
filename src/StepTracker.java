@@ -1,25 +1,22 @@
 import java.util.Arrays;
 
 public class StepTracker {
-    private int[][] stepCount = new int[12][30];
+    private final int[][] stepCount = new int[Constants.MONTH_COUNT][Constants.DAYS_COUNT];
 
     private int goal;
 
-    private int[] maxCount = new int[12];
-    private int[] sumCount = new int[12];
+    private final int[] maxCount = new int[Constants.MONTH_COUNT];
+    private final int[] sumCount = new int[Constants.MONTH_COUNT];
 
     public void init() {
-        for (int i = 0; i < 12; i++) {
-            Arrays.setAll(stepCount[i], (index) -> 0);
+        for (int i = 0; i < Constants.MONTH_COUNT; i++) {
+            Arrays.fill(stepCount[i], 0);
         }
-        Arrays.setAll(maxCount, (index) -> 0);
-        Arrays.setAll(sumCount, (index) -> 0);
-        goal = 10000;
+        Arrays.fill(maxCount, 0);
+        Arrays.fill(sumCount, 0);
+        goal = Constants.DEFAULT_GOAL;
     }
 
-    public int getGoal() {
-        return goal;
-    }
 
     public void setGoal(int goal) {
         this.goal = goal;
@@ -40,21 +37,21 @@ public class StepTracker {
     private int getMaxSeriesSize(int month) {
         int result = 0;
         int currentSize = 0;
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < Constants.DAYS_COUNT; i++) {
             if (stepCount[month][i] < goal) {
-                result = (currentSize > result) ? currentSize : result;
+                result = Math.max(currentSize, result);
                 currentSize = 0;
             } else {
                 currentSize++;
             }
         }
-        result = (currentSize > result) ? currentSize : result;
+        result = Math.max(currentSize, result);
         return result;
     }
 
     public String getStat(int month) {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < Constants.DAYS_COUNT; i++) {
             builder.append(i + 1);
             builder.append(" день: ");
             builder.append(stepCount[month][i]);
@@ -69,7 +66,7 @@ public class StepTracker {
         builder.append(maxCount[month]);
         builder.append("\n");
         builder.append("Среднее количество шагов: ");
-        builder.append(sumCount[month] / 30);
+        builder.append(sumCount[month] / Constants.DAYS_COUNT);
         builder.append("\n");
         builder.append("Пройденная дистанция: ");
         builder.append(Converter.convertStepsToDistance(sumCount[month]));

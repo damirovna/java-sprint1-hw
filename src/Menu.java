@@ -52,8 +52,8 @@ public enum Menu {
         }
     };
 
-    private String commandText;
-    private int commandNumber;
+    private final String commandText;
+    private final int commandNumber;
     protected StepTracker stepTracker;
 
     Menu(String text, int commandNumber) {
@@ -63,33 +63,13 @@ public enum Menu {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(commandNumber);
-        stringBuilder.append(".  ");
-        stringBuilder.append(commandText);
-        return stringBuilder.toString();
+        return commandNumber + ".  " + commandText;
     }
 
     public abstract boolean runCommand();
 
-    public String getCommandText() {
-        return commandText;
-    }
-
-    public void setCommandText(String commandText) {
-        this.commandText = commandText;
-    }
-
     public int getCommandNumber() {
         return commandNumber;
-    }
-
-    public void setCommandNumber(int commandNumber) {
-        this.commandNumber = commandNumber;
-    }
-
-    public StepTracker getStepTracker() {
-        return stepTracker;
     }
 
     public void setStepTracker(StepTracker stepTracker) {
@@ -100,11 +80,11 @@ public enum Menu {
         System.out.println("Введите индекс месяца: ");
         int month = new Scanner(System.in).nextInt();
         if (month < 1) {
-            System.out.println("Номер месяца должен быть неменьше 1");
+            System.out.println("Номер месяца должен быть натуральным числом");
             return null;
         }
-        if (month > 12) {
-            System.out.println("Номер месяца должен быть небольше 12");
+        if (month > Constants.MONTH_COUNT) {
+            System.out.println("Номер месяца должен быть небольше " + Constants.MONTH_COUNT);
             return null;
         }
         return month - 1;
@@ -114,11 +94,11 @@ public enum Menu {
         System.out.println("Введите номер дня: ");
         int day = new Scanner(System.in).nextInt();
         if (day < 1) {
-            System.out.println("Номер дня должен быть неменьше 1");
+            System.out.println("Номер дня должен быть натуральным числом");
             return null;
         }
-        if (day > 30) {
-            System.out.println("Номер дня должен быть небольше 30");
+        if (day > Constants.DAYS_COUNT) {
+            System.out.println("Номер дня должен быть небольше " + Constants.DAYS_COUNT);
             return null;
         }
         return day - 1;
