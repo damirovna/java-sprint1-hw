@@ -2,11 +2,12 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void printMenu(){
-        for(Menu menu: Menu.values()){
+    public static void printMenu() {
+        for (Menu menu : Menu.values()) {
             System.out.println(menu.toString());
         }
     }
+
     public static void main(String[] args) {
         StepTracker tracker = new StepTracker();
         Scanner scanner = new Scanner(System.in);
@@ -15,14 +16,14 @@ public class Main {
             printMenu();
             int command = scanner.nextInt();
             boolean isCommandExist = false;
-            for(Menu menu: Menu.values()){
-                if (command == menu.getCommandNumber()){
+            for (Menu menu : Menu.values()) {
+                if (command == menu.getCommandNumber()) {
                     isCommandExist = true;
                     menu.setStepTracker(tracker);
                     isRun = menu.runCommand();
                 }
             }
-            if(!isCommandExist){
+            if (!isCommandExist) {
                 System.out.println("Команды " + command + " не существует. Пожалуйста, повторите попытку.");
             }
         }

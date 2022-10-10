@@ -8,7 +8,7 @@ public class StepTracker {
     private int[] maxCount = new int[12];
     private int[] sumCount = new int[12];
 
-    public void init(){
+    public void init() {
         for (int i = 0; i < 12; i++) {
             Arrays.setAll(stepCount[i], (index) -> 0);
         }
@@ -29,32 +29,32 @@ public class StepTracker {
         init();
     }
 
-    public void addSteps(int month, int day, int count){
-       stepCount[month][day] = count;
-       sumCount[month] += count;
-       if (maxCount[month] < count){
-           maxCount[month] = count;
-       }
+    public void addSteps(int month, int day, int count) {
+        stepCount[month][day] = count;
+        sumCount[month] += count;
+        if (maxCount[month] < count) {
+            maxCount[month] = count;
+        }
     }
 
-    private int getMaxSeriesSize(int month){
+    private int getMaxSeriesSize(int month) {
         int result = 0;
         int currentSize = 0;
-        for (int i = 0; i < 30; i++){
-            if (stepCount[month][i] < goal){
-                result = (currentSize > result)?currentSize:result;
+        for (int i = 0; i < 30; i++) {
+            if (stepCount[month][i] < goal) {
+                result = (currentSize > result) ? currentSize : result;
                 currentSize = 0;
-            }else{
+            } else {
                 currentSize++;
             }
         }
-        result = (currentSize > result)?currentSize:result;
+        result = (currentSize > result) ? currentSize : result;
         return result;
     }
 
-    public String getStat(int month){
+    public String getStat(int month) {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < 30; i++){
+        for (int i = 0; i < 30; i++) {
             builder.append(i + 1);
             builder.append(" день: ");
             builder.append(stepCount[month][i]);

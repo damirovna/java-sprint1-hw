@@ -1,20 +1,20 @@
 import java.util.Scanner;
 
 public enum Menu {
-    ADD_STEPS("Ввести количество шагов за определённый день", 1){
+    ADD_STEPS("Ввести количество шагов за определённый день", 1) {
         @Override
         public boolean runCommand() {
             Integer monthIndex = getMonthIndex();
-            if (monthIndex == null){
+            if (monthIndex == null) {
                 return true;
             }
             Integer day = getDay();
-            if (day == null){
+            if (day == null) {
                 return true;
             }
             System.out.println("Введите количество шагов: ");
             int count = new Scanner(System.in).nextInt();
-            if (count < 0){
+            if (count < 0) {
                 System.out.println("Количесво шагов не может быть отрицательным!");
                 return true;
             }
@@ -22,30 +22,30 @@ public enum Menu {
             return true;
         }
     },
-    GET_STAT("Напечатать статистику за определённый месяц;", 2){
+    GET_STAT("Напечатать статистику за определённый месяц;", 2) {
         @Override
         public boolean runCommand() {
             Integer monthIndex = getMonthIndex();
-            if (monthIndex != null){
+            if (monthIndex != null) {
                 System.out.println(stepTracker.getStat(monthIndex));
             }
             return true;
         }
     },
-    CHANGE_GOAL("Изменить цель по количеству шагов в день;", 3){
+    CHANGE_GOAL("Изменить цель по количеству шагов в день;", 3) {
         @Override
         public boolean runCommand() {
             System.out.println("Введите новую цель: ");
             int newGoal = new Scanner(System.in).nextInt();
-            if (newGoal < 0){
+            if (newGoal < 0) {
                 System.out.println("Вы ввели отрицательное количество шагов. Новая цель не установлена");
-            }else{
+            } else {
                 stepTracker.setGoal(newGoal);
             }
             return true;
         }
     },
-    EXIT("Выйти из приложения.", 0){
+    EXIT("Выйти из приложения.", 0) {
         @Override
         public boolean runCommand() {
             return false;
@@ -60,6 +60,7 @@ public enum Menu {
         this.commandNumber = commandNumber;
         this.commandText = text;
     }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -95,22 +96,28 @@ public enum Menu {
         this.stepTracker = stepTracker;
     }
 
-    protected Integer getMonthIndex(){
-        System.out.println("Введите название месяца: ");
-        String monthName = new Scanner(System.in).next();
-        if (Month.getIndex(monthName) == null){
-            System.out.println("Ошибка в названии месяца");
+    protected Integer getMonthIndex() {
+        System.out.println("Введите индекс месяца: ");
+        int month = new Scanner(System.in).nextInt();
+        if (month < 1) {
+            System.out.println("Номер месяца должен быть неменьше 1");
+            return null;
         }
-        return Month.getIndex(monthName);
+        if (month > 12) {
+            System.out.println("Номер месяца должен быть небольше 12");
+            return null;
+        }
+        return month - 1;
     }
-    protected Integer getDay(){
+
+    protected Integer getDay() {
         System.out.println("Введите номер дня: ");
         int day = new Scanner(System.in).nextInt();
-        if (day < 1){
+        if (day < 1) {
             System.out.println("Номер дня должен быть неменьше 1");
             return null;
         }
-        if (day > 30){
+        if (day > 30) {
             System.out.println("Номер дня должен быть небольше 30");
             return null;
         }
